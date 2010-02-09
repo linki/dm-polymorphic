@@ -79,6 +79,14 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
           item.reload
           item.comments.should have(2).items
         end
+        
+        it "should access the #{klass.name.downcase} from the comment" do
+          item = klass.create(:name => "item4")
+          c = Comment.new(:text => "comment5")
+          item.comments << c
+          item.save
+          c.send(Extlib::Inflection.underscore(klass.name).to_sym).should == item
+        end        
 
         it "should access the commentable from the comment for #{klass}" do
           item = klass.create(:name => "item5")        
