@@ -6,8 +6,7 @@ DataMapper.setup(:default, 'sqlite3::memory:')
 class Comment
   include DataMapper::Resource
   
-  # is :polymorphic, :commentable
-  belongs_to :commentable, :polymorphic => true
+  is :polymorphic, :commentable
   
   property :id,   Serial, :serial => true
   property :text, String
@@ -19,8 +18,7 @@ class Post
   property :id, Serial, :serial => true
   property :name,  String  
 
-  has n, :comments, :as => :commentable  
-  # has n, :comments, :polymorphically => :commentable   
+  has n, :comments, :polymorphically => :commentable   
 end
 
 class Article
@@ -29,8 +27,7 @@ class Article
   property :id, Serial, :serial => true
   property :name,  String  
 
-  has n, :comments, :as => :commentable  
-  # has n, :comments, :polymorphically => :commentable
+  has n, :comments, :polymorphically => :commentable
 end
 
 Comment.auto_migrate!
